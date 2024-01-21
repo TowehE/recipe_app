@@ -13,14 +13,7 @@ const recipeSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-   likes:{
-     type:Number,
-        default:0,
-   },
-    share:{
-     type:Number,
-        default:0,
-   },
+  
    profilePicture:{
     public_id:{
         type: String,
@@ -34,6 +27,12 @@ createdBy: {
      ref: 'user'
     },
    }, 
+
+   sharedRecipes:
+      [{
+         type: mongoose.Schema.Types.ObjectId,
+          ref: 'Recipe' 
+        }],
 
 },{timestamps:true})
 

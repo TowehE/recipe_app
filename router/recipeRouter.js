@@ -9,8 +9,8 @@ const{
     viewAllRecipe,
     editRecipe, 
 deleteRecipe, 
-shareRecipe, 
-shareRecipeOnTwitter,
+// shareRecipe, 
+// shareRecipeOnTwitter,
 
     
 } = require("../controller/recipeController");
@@ -35,8 +35,11 @@ router.delete("/delete/:id", admin, deleteRecipe),
 
 
 
-//endpoint to share recipe on twitter 
-router.get("/sharetwi", shareRecipeOnTwitter),
+// //endpoint to share recipe to another user 
+// router.get("/share/:id", shareRecipe),
+
+// //endpoint to share recipe on twitter 
+// router.get("/sharetwi", shareRecipeOnTwitter),
 
 
 module.exports = router       
