@@ -14,7 +14,7 @@ exports.createRecipe = async (req, res) =>{
         const user = await userModel.findById(userId)
         const {title, ingredients, instructions } = req.body
 
-        let createdBy;
+        
 
     const profilePicture = req.files.profilePicture.tempFilePath
     
@@ -39,7 +39,7 @@ exports.createRecipe = async (req, res) =>{
             public_id: fileUploader.public_id, 
             url: fileUploader.secure_url
         },
-        createdBy,
+        createdBy :[user.fullName],
              
         })
 
@@ -50,13 +50,15 @@ exports.createRecipe = async (req, res) =>{
         }
         recipes.createdBy = user.fullName
         await recipes.save()
+        console.log(recipes.createdBy)
+        
         user.recipe.push(recipes)
+        console.log(recipes.createdBy)
 
         //recipes.createdBy.push(user._id)
         await user.save()
-        recipes.save()
-        console.log(recipes.createdBy)
-        
+        // recipes.save()
+       
         res.status(201).json({
             message: `You have successfully created a recipe`,
             data: recipes
@@ -75,7 +77,7 @@ exports.getRecipe = async (req, res) =>{
     try{
         const id = req.params.id
 
-        const recipe = await recipeModel.findById(id)
+        const recipe = await recipeModel.findById(id).populate("createdBy")
 
         if(!recipe){
             return res.status(404).json({
@@ -98,9 +100,8 @@ exports.getRecipe = async (req, res) =>{
 //to get all recipe
 exports.viewAllRecipe = async (req, res) => {
     try {
-        const recipeId = req.params.id;
-    
-        const recipe = await recipeModel.find()
+  
+        const recipe = await recipeModel.find().populate(createdBy)
 
         if(recipe.length === 0){
             return res.status(404).json({

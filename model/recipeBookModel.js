@@ -28,11 +28,6 @@ createdBy: {
     },
    }, 
 
-   sharedRecipes:
-      [{
-         type: mongoose.Schema.Types.ObjectId,
-          ref: 'Recipe' 
-        }],
 
 },{timestamps:true})
 
