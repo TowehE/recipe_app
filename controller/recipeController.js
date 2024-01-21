@@ -77,7 +77,7 @@ exports.getRecipe = async (req, res) =>{
     try{
         const id = req.params.id
 
-        const recipe = await recipeModel.findById(id).populate("createdBy")
+        const recipe = await recipeModel.findById(id)
 
         if(!recipe){
             return res.status(404).json({
@@ -100,8 +100,8 @@ exports.getRecipe = async (req, res) =>{
 //to get all recipe
 exports.viewAllRecipe = async (req, res) => {
     try {
-  
-        const recipe = await recipeModel.find().populate(createdBy)
+       const recipeId = req.params.id
+        const recipe = await recipeModel.find()
 
         if(recipe.length === 0){
             return res.status(404).json({
