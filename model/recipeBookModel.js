@@ -1,35 +1,35 @@
 const mongoose = require ("mongoose")
 
 const recipeSchema = new mongoose.Schema({
-    title:{
+    title: {
         type: String,
         required: true
     },
-    ingredients:{
+    ingredients: {
         type: String,
         required: true
     },
-    instructions:{
+    instructions: {
         type: String,
         required: true
     },
-  
-   profilePicture:{
-    public_id:{
-        type: String,
+
+    profilePicture: {
+        public_id: {
+            type: String,
+        },
+        url: {
+            type: String,
+
+        }
     },
-    url:{
-    type: String,
-
-},
-createdBy: { 
-    type: mongoose.Schema.Types.ObjectId,
-     ref: 'user'
+    createdBy: {
+        type: mongoose.Schema.Types.Array,
+        ref: 'user'
     },
-   }, 
 
 
-},{timestamps:true})
+}, { timestamps: true })
 
 
 const recipeModel = mongoose.model("recipe", recipeSchema)

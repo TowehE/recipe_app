@@ -13,9 +13,8 @@ exports.createRecipe = async (req, res) =>{
         const userId = req.user.userId
         const user = await userModel.findById(userId)
         const {title, ingredients, instructions } = req.body
-
+        let createdBy;
         
-
     const profilePicture = req.files.profilePicture.tempFilePath
     
       const fileUploader = await cloudinary.uploader.upload(profilePicture, {folder: "FoodImages" }, ( error, profilePicture ) => {
@@ -50,10 +49,10 @@ exports.createRecipe = async (req, res) =>{
         }
         recipes.createdBy = user.fullName
         await recipes.save()
-        console.log(recipes.createdBy)
+        console.log("user fullName",recipes.createdBy)
         
         user.recipe.push(recipes)
-        console.log(recipes.createdBy)
+        console.log("", recipes.createdBy)
 
         //recipes.createdBy.push(user._id)
         await user.save()
@@ -100,9 +99,8 @@ exports.getRecipe = async (req, res) =>{
 //to get all recipe
 exports.viewAllRecipe = async (req, res) => {
     try {
-       const recipeId = req.params.id
+  
         const recipe = await recipeModel.find()
-
         if(recipe.length === 0){
             return res.status(404).json({
                 message: `There are no recipes present here`
