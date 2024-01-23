@@ -11,7 +11,9 @@ forgotPassword,
     resetPasswordPage, 
     resetPassword, 
     signOut,
-    isAdmin
+    isAdmin,
+    getAUser,
+    getAllUSers
     
 } = require("../controller/userController");
 const { admin, authenticate } = require("../middleware/authetication");
@@ -45,5 +47,10 @@ router.post("/signout/:userId", signOut)
 //endpoint for admin to log in
 router.put("/isadmin/:adminId",authenticate, isAdmin)
 
+//get all user
+router.get("/getall",getAllUSers)
+
+//get a user
+router.get("/getone/:userId", getAUser)
 
 module.exports = router         

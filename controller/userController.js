@@ -12,10 +12,10 @@ const {resetFunc} = require("../resetHTML")
 
 
 
-//function to capitalize the first letter
-const capitalizeFirstLetter = (str) => {
-    return str[0].toUpperCase() + str.slice(1);
-};
+    //function to capitalize the first letter
+    const capitalizeFirstLetter = (str) => {
+        return str[0].toUpperCase() + str.slice(1);
+    };
 
 
 
@@ -150,6 +150,7 @@ exports.logIn = async (req, res) => {
                 message: error.details[0].message
             })
         } else {
+
             const { email, password } = req.body;
             const checkEmail = await userModel.findOne({ email: email.toLowerCase() });
             if (!checkEmail) {
@@ -169,10 +170,19 @@ exports.logIn = async (req, res) => {
                 isAdmin: checkEmail.isAdmin
             }, process.env.secret, { expiresIn: "5h" });
 
+            const user = {
+                fullName: checkEmail.fullName,
+                userName: checkEmail.userName,
+                email: checkEmail.email,
+                isAdmin: checkEmail.isAdmin,
+                isVerified: checkEmail.isVerified
+            };
             if (checkEmail.isVerified === true) {
                 res.status(200).json({
                     message: "Welcome " + checkEmail.userName,
+                    data:user,
                     token: token
+                   
                 })
                 checkEmail.token = token;
                 await checkEmail.save();
@@ -320,6 +330,49 @@ exports.isAdmin = async(req,res)=>{
 }
 
 
+//get all users
+exports. getAllUSers = async(req,res)=>{
+    try{
+      const user = await userModel.find()
+   if(user.length == 0 ){
+      res.status(200).json({
+          message:"user database is empty"
+      })
+   }else{
+      res.status(200).json({
+          message:`list of all ${user.length} users in this database`,
+          data:user
+      })
+   }
+    }catch(error){
+      res.status(404).json({
+          message:error
+      })
+  } 
+  }
+
+  // get a user
+exports.getAUser = async(req,res)=>{
+    try{
+      const userId = req.params.userId;
+      const user = await userModel.findById(userId);
+   if(!user){
+      res.status(404).json({
+          message:"user not found"
+      })
+   }else{
+      res.status(200).json({
+          message:"user found",
+          data:user
+      })
+   }
+    }catch(error){
+      res.status(404).json({
+          message:error
+      })
+  } 
+  }
+  
 
 
 
