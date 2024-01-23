@@ -280,7 +280,7 @@ exports.signOut = async (req, res) => {
         user.token = null;
         await user.save();
         res.status(201).json({
-            message: `user has been signed out successfully`
+            message: `User has been signed out successfully`
         })
     
 }catch(error){
@@ -336,7 +336,7 @@ exports. getAllUSers = async(req,res)=>{
       const user = await userModel.find()
    if(user.length == 0 ){
       res.status(200).json({
-          message:"user database is empty"
+          message:"User database is empty"
       })
    }else{
       res.status(200).json({
@@ -358,7 +358,7 @@ exports.getAUser = async(req,res)=>{
       const user = await userModel.findById(userId);
    if(!user){
       res.status(404).json({
-          message:"user not found"
+          message:"User not found"
       })
    }else{
       res.status(200).json({
