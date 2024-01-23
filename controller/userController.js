@@ -362,7 +362,7 @@ exports.getAUser = async(req,res)=>{
       })
    }else{
       res.status(200).json({
-          message:"user found",
+          message:`${user.fullName} details`,
           data:user
       })
    }
