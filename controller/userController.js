@@ -374,6 +374,34 @@ exports.getAUser = async(req,res)=>{
   }
   
 
+  
+   //delete the user
+   exports.deleteuser = async(req,res)=>{
+    try{
+     //track the user id
+        const userId = req.params.userId;
+
+    //track the user with the ID gotten
+    const user = await userModel.findById(userId);
+//check for errors
+if(!user){
+    res.staus(404).json({
+        message: `user with id ${userId} has not been found`
+    })
+}
+//delete the user
+await userModel.findByIdAndDelete(userId);
+return res.status(200).json({
+    message:`user with id ${userId} has been deleted`,
+
+})
+
+}catch(error){
+    res.status(404).json({
+        message:error
+    })
+} 
+}
 
 
 

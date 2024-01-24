@@ -13,7 +13,8 @@ forgotPassword,
     signOut,
     isAdmin,
     getAUser,
-    getAllUSers
+    getAllUSers,
+    deleteuser
     
 } = require("../controller/userController");
 const { admin, authenticate } = require("../middleware/authetication");
@@ -52,5 +53,9 @@ router.get("/getall",getAllUSers)
 
 //get a user
 router.get("/getone/:userId", getAUser)
+
+///to delete a usr
+router.delete("/deleteUser/:userId",admin, deleteuser)
+
 
 module.exports = router         
