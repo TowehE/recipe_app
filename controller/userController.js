@@ -150,14 +150,18 @@ exports.logIn = async (req, res) => {
                 message: error.details[0].message
             })
         } else {
+   
+const { email, userName, password } = req.body;
+console.log(req.body)
+      const checkEmail = await userModel.findOne( {$or:[{ email }, {userName}] } ); 
+      if (!checkEmail) {
+        return res.status(404).json({
+            message: 'User not registered'
+        });
+    }
 
-            const { email, password } = req.body;
-            const checkEmail = await userModel.findOne({ email: email.toLowerCase() });
-            if (!checkEmail) {
-                return res.status(404).json({
-                    message: 'User not registered'
-                });
-            }
+              console.log(checkEmail)
+         
             const checkPassword = bcrypt.compareSync(password, checkEmail.password);
             if (!checkPassword) {
                 return res.status(404).json({
@@ -395,6 +399,7 @@ return res.status(200).json({
     message:`user with id ${userId} has been deleted`,
 
 })
+
 
 }catch(error){
     res.status(404).json({
